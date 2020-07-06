@@ -84,7 +84,7 @@ RUN mkdir indy-sdk && \
 
 # Build and install indy-sdk
 WORKDIR $HOME/indy-sdk
-RUN cd indy-sdk*/libindy && \
+RUN cd *indy-sdk*/libindy && \
     cargo build ${indy_build_flags} && \
     cp target/*/libindy.so "$HOME/.local/lib" && \
     cargo clean
@@ -95,13 +95,13 @@ RUN tar czvf python3-indy.tgz -C indy-sdk*/wrappers/python . && \
     rm python3-indy.tgz
 
 # Build and install indy-cli
-RUN cd indy-sdk*/cli && \
+RUN cd *indy-sdk*/cli && \
     cargo build ${indy_build_flags} && \
     cp target/*/indy-cli "$HOME/.local/bin" && \
     cargo clean
 
 # Build and install postgres_storage plugin
-RUN cd indy-sdk*/experimental/plugins/postgres_storage && \
+RUN cd *indy-sdk*/experimental/plugins/postgres_storage && \
     cargo build ${indy_build_flags} && \
     cp target/*/libindystrgpostgres.so "$HOME/.local/lib" && \
     cargo clean
