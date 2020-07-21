@@ -91,8 +91,7 @@ VERSIONS = {
         "version": "1.15-0",
         "args": {
             # 1.15.0 release
-            # "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/f85afd2f94959eb59522e5dda160d2c7fdd1a4ba",
-            "indy_sdk_url": "https://codeload.github.com/eorituz/indy-sdk/tar.gz/armv7_0.7",
+            "indy_sdk_url": "https://codeload.github.com/KoleBarnes/indy-sdk/tar.gz/7fe80d8278ab2b4719b002cda3b8f189c7ffd7df,
             "rust_version": "1.40.0",
         },
     },
