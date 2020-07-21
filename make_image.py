@@ -91,7 +91,7 @@ VERSIONS = {
         "version": "1.15-0",
         "args": {
             # 1.15.0 release
-            "indy_sdk_url": "https://codeload.github.com/KoleBarnes/indy-sdk/tar.gz/7fe80d8278ab2b4719b002cda3b8f189c7ffd7df,
+            "indy_sdk_url": "https://codeload.github.com/KoleBarnes/indy-sdk/tar.gz/7fe80d8278ab2b4719b002cda3b8f189c7ffd7df",
             "rust_version": "1.40.0",
         },
     },
