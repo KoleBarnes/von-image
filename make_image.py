@@ -185,6 +185,9 @@ parser.add_argument("--test", action="store_true", help="perform tests on docker
 parser.add_argument(
     "version", choices=VERSIONS.keys(), help="the predefined release version"
 )
+parser.add_argument(
+    "--buildx", action="store_true", help="Indicate buildx (BuildKit) build"
+)
 
 args = parser.parse_args()
 ver = VERSIONS[args.version]
@@ -267,7 +270,12 @@ if args.vonx:
     cmd_args.extend(["--build-arg", "VONX_FORCE=True"])
 
 cmd_args.append(target)
-cmd = ["docker", "build"] + cmd_args
+
+if args.buildx:
+    cmd = ["docker", "buildx", "build"] + cmd_args
+else:
+    cmd = ["docker", "build"] + cmd_args
+
 
 if args.dry_run:
     print(" ".join(cmd))

@@ -1,13 +1,13 @@
 name: Docker Build/Publish Image
 
 on:
+    workflow_dispatch:
     push:
     # branches: [master]
-    workflow_dispatch:
 
 jobs:
     build:
-        runs-on: ubuntu-18.04
+        runs-on: ubuntu-latest
         env:
             DOCKER_REGISTRY:
             DOCKER_IMAGE: kolebarnes/von-image
@@ -18,26 +18,22 @@ jobs:
             - name: Checkout the code
               uses: actions/checkout@v2
 
-            # - name: Set up Docker Buildx
-            #   uses: crazy-max/ghaction-docker-buildx@v1
-            #   with:
-            #     version: latest
+            - name: Set up Docker Buildx
+              id: buildx
+              uses: crazy-max/ghaction-docker-buildx@v3
+              with:
+                  buildx-version: latest
+                  qemu-version: latest
 
-            # - name: Prepare
-            #   if: success()
-            #   id: prepare
-            #   run: |
-            #     echo ::set-output name=docker_platform::${DOCKER_TARGET_PLATFORM}
-            #     echo ::set-output name=docker_image::${DOCKER_REGISTRY}/${DOCKER_IMAGE}
-            #     echo ::set-output name=version::${GITHUB_RUN_NUMBER}
+            - name: Available platforms
+              run: echo ${{ steps.buildx.outputs.platforms }}
 
             - name: Docker Login
               if: success()
               run: |
-                  echo '${{ secrets.DOCKER_PASSWORD }}' | docker login ${DOCKER_REGISTRY} --username "${DOCKER_USERNAME}" --password-stdin
+                  docker login ${DOCKER_REGISTRY} --username "${DOCKER_USERNAME}" --password '${{ secrets.DOCKER_PASSWORD }}'
 
             - name: Build and push image
               if: success()
               run: |
-                  python3 make_image.py 1.15.0 --py37 --name ${DOCKER_IMAGE} --push
-                  # docker buildx build \ --platform ${{ steps.prepare.outputs.docker_platform }} \ --tag ${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.version }} \ --file ./Dockerfile \ --output type=image,push=true .
+                  python3 make_image.py 1.15.0 --py37 --name ${DOCKER_IMAGE} --push  --buildx --platform ${DOCKER_TARGET_PLATFORM}
