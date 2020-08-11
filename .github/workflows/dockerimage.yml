@@ -9,11 +9,10 @@ jobs:
     build:
         runs-on: ubuntu-18.04
         # env:
-        #   DOCKER_REGISTRY: kemansel.azurecr.io
-        #   DOCKER_IMAGE: kolebarnes/von-image
-        #   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        #   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        #   DOCKER_TARGET_PLATFORM: linux/arm/v7
+          DOCKER_REGISTRY:
+          DOCKER_IMAGE: kolebarnes/von-image
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_TARGET_PLATFORM: linux/arm/v7
 
         steps:
             - name: Checkout the code
@@ -32,13 +31,13 @@ jobs:
             #     echo ::set-output name=docker_image::${DOCKER_REGISTRY}/${DOCKER_IMAGE}
             #     echo ::set-output name=version::${GITHUB_RUN_NUMBER}
 
-            # - name: Docker Login
-            #   if: success()
-            #   run: |
-            #     echo "${DOCKER_PASSWORD}" | docker login ${DOCKER_REGISTRY} --username "${DOCKER_USERNAME}" --password-stdin
-
-            - name: Build
+            - name: Docker Login
               if: success()
               run: |
-                  python3 make_image.py 1.15.0 --py37 --name bcgovimages/von-image     
+                echo '${{ secrets.DOCKER_PASSWORD }}' | docker login ${DOCKER_REGISTRY} --username "${DOCKER_USERNAME}" --password-stdin
+
+            - name: Build and push image
+              if: success()
+              run: |
+                  python3 make_image.py 1.15.0 --py37 --name ${DOCKER_IMAGE} --push
                   # docker buildx build \ --platform ${{ steps.prepare.outputs.docker_platform }} \ --tag ${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.version }} \ --file ./Dockerfile \ --output type=image,push=true .
