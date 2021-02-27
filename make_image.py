@@ -98,8 +98,9 @@ VERSIONS = {
     "next-1": {
         "path": "next",
         "args": {
-            # 1.14.2 release
-            "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/19dee23ad1bad04012ecb77ad8ed30113a23694f",
+            # 1.15.0 release
+            "indy_sdk_url": "https://codeload.github.com/KoleBarnes/indy-sdk/tar.gz/7fe80d8278ab2b4719b002cda3b8f189c7ffd7df",
+            "rust_version": "1.40.0",
         },
     },
 }
