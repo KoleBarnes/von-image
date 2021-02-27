@@ -113,7 +113,7 @@ RUN rustup toolchain install nightly && rustup default nightly
 RUN pip install --no-cache-dir --user maturin
 WORKDIR $HOME/indy-credx
 RUN cd indy-credx*/wrappers/python && \
-    maturin build --no-sdist --manylinux=1-unchecked --release && \
+    maturin build --no-sdist --manylinux=off --release && \
     pip install --user target/wheels/* && \
     cargo clean
 
